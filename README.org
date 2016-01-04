@@ -1,0 +1,24 @@
+#+TITLE:       serialization.protocol-buffer README
+#+AUTHOR:      Jan Moringen
+#+EMAIL:       jmoringe@techfak.uni-bielefeld.de
+#+DESCRIPTION: Description, tutorial and reference for the serialization.protocol-buffer system
+#+KEYWORDS:    common lisp, native, protocol buffers, compiler
+#+LANGUAGE:    en
+
+* STARTED Introduction
+
+  The =serialization.protocol-buffer= system is a pure Common Lisp
+  implementation of a Protocol Buffer compiler. In particular, it does
+  not depend on Google's protocol buffer compiler, =protoc=, or other
+  external tools [fn:graphviz: GraphViz can be used for
+  visualization.].
+
+* TODO Tutorial
+
+* TODO Dictionary
+
+* settings                                                         :noexport:
+
+#+OPTIONS: H:2 num:nil toc:t \n:nil @:t ::t |:t ^:t -:t f:t *:t <:t
+#+OPTIONS: TeX:t LaTeX:t skip:nil d:nil todo:t pri:nil tags:not-in-toc
+#+SEQ_TODO: TODO STARTED | DONE
