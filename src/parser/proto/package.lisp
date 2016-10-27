@@ -57,6 +57,8 @@
 
    #:message
 
+   #:extend
+
    #:enum-value
    #:enum
 
@@ -76,7 +78,6 @@
     receive parsing results.
 
     The following things are not supported:
-    * extend keyword
     * group keyword
 
     The grammar rules are based on

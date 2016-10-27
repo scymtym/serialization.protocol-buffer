@@ -313,6 +313,43 @@
          :name "bar"  :number 1 :label :repeated :bounds (20 . 44)))))
      :name "Foo" :bounds (0 . 50))))
 
+(define-rule-test (extend :version 2)
+  (""             nil)
+  ("extend"       nil)
+  ("extend Foo"   nil)
+  ("extend Foo {" nil)
+
+  ("extend Foo {}"
+   '(:extend
+     ((:message . 1)
+      (((:type-reference () :name (:relative "Foo") :bounds (7 . 10)))))
+     :bounds (0 . 13)))
+
+  ("extend Foo/**/{/**/}"
+   '(:extend
+     (:field
+      (((:comment () :content "" :bounds (15 . 19))))
+      (:message . 1)
+      (((:type-reference () :name (:relative "Foo") :bounds (7 . 10)))))
+     :bounds (0 . 20)))
+
+  ("extend Foo {
+      repeated string bar = 1;
+    }"
+   '(:extend
+     (:field
+      (((:field
+         ((:type . 1)
+          (((:primitive-type () :name :string :bounds (28 . 34)))))
+         :name "bar" :number 1 :label :repeated :bounds (19 . 43))))
+      (:message . 1)
+      (((:type-reference () :name (:relative "Foo") :bounds (7 . 10)))))
+     :bounds (0 . 49))))
+
+(define-rule-test (extend :version 3)
+  ("extend Foo {}"                           nil)
+  ("extend Foo { repeated string bar = 1; }" nil))
+
 (define-rule-test enum
   (""                    nil)
   ("enum"                nil)

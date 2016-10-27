@@ -60,6 +60,7 @@
 
   (define-keyword package)
   (define-keyword message)
+  (define-keyword extend #+later version-2)
   (define-keyword enum)
   (define-keyword service)
 

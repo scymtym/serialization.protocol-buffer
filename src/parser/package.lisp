@@ -48,6 +48,7 @@
 
    #:keyword-package  #:keyword-package/s  #:keyword-package/?s
    #:keyword-message  #:keyword-message/s  #:keyword-message/?s
+   #:keyword-extend   #:keyword-extend/s   #:keyword-extend/?s
    #:keyword-enum     #:keyword-enum/s     #:keyword-enum/?s
    #:keyword-service  #:keyword-service/s  #:keyword-service/?s
 

@@ -27,7 +27,8 @@
   (:constant nil)
   (:error-report nil))
 
-(defmacro define-named-block-rule ((name keyword-rule name-rule kind element-relation)
+(defmacro define-named-block-rule ((name keyword-rule name-rule kind element-relation
+                                    &key name-relation)
                                    element-expression
                                    &rest options)
   (let+ ((element-rule-name (symbolicate name '#:-element))
@@ -48,7 +49,9 @@
                 delimiter-})
          (:destructure (keyword name open content close &bounds start end)
            (declare (ignore keyword open close))
-           (bp:node* (,kind :name name :bounds (cons start end))
+           (bp:node* (,kind ,@(unless name-relation `(:name name))
+                            :bounds (cons start end))
+             ,@(when name-relation `((1 (,name-relation . 1) name)))
              (* ,element-relation content)))
          ,@options))))
 
@@ -107,7 +110,7 @@
                                            :bounds (cons start end)))))))))
   (define-type-rules))
 
-(defrule compound-type-reference
+(defrule/s compound-type-reference
     (and (? #\.) dotted-identifier)
   (:destructure (dot name &bounds start end)
     (let ((name (cons (if dot :absolute :relative) name)))
@@ -349,6 +352,14 @@
     (message keyword-message/s identifier/?s :message :child)
   (or message enum statement-option field oneof reservation))
 
+;;; Extend
+
+(define-named-block-rule
+    (extend keyword-extend/s compound-type-reference/?s :extend :field
+     :name-relation :message)
+  (or field #+later group)
+  (:when (= *version* 2)))
+
 ;;; Enum
 
 (defun enum-value? (thing)
@@ -452,7 +463,7 @@
          (* (or statement-package
                 statement-import
                 statement-option
-                message enum service
+                message extend enum service
                 toplevel-comment whitespace+ ignored-semicolon)))
   ;; Root production; parses top-level comments, package directives
   ;; and top-level definitions.
