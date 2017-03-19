@@ -13,6 +13,9 @@
   external tools [fn:graphviz: GraphViz can be used for
   visualization.].
 
+  #+ATTR_HTML: :alt "build status image" :title Build Status :align right
+  [[https://travis-ci.org/scymtym/serialization.protocol-buffers][https://travis-ci.org/scymtym/serialization.protocol-buffers.svg]]
+
 * TODO Tutorial
 
 * TODO Dictionary
