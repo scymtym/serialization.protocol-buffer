@@ -14,7 +14,7 @@
   visualization.].
 
   #+ATTR_HTML: :alt "build status image" :title Build Status :align right
-  [[https://travis-ci.org/scymtym/serialization.protocol-buffers][https://travis-ci.org/scymtym/serialization.protocol-buffers.svg]]
+  [[https://travis-ci.org/scymtym/serialization.protocol-buffer][https://travis-ci.org/scymtym/serialization.protocol-buffer.svg]]
 
 * TODO Tutorial
 
