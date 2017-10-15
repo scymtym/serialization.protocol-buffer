@@ -11,10 +11,21 @@
 
 ;;; Whitespace stuff
 
-(defrule skippable? whitespace*
+(defvar *comment-rule* nil)
+
+(defun parse-comment (text position end)
+  (if-let ((rule *comment-rule*))
+    (parse rule text :start position :end end :raw t)
+    (values nil position nil)))
+
+(defrule skippable?
+    (* (or whitespace #'parse-comment))
+  (:constant nil)
   (:error-report nil))
 
-(defrule skippable whitespace+)
+(defrule skippable
+    (+ (or whitespace #'parse-comment))
+  (:constant nil))
 
 ;;; Delimiters and keywords
 
