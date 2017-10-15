@@ -8,15 +8,33 @@
 * STARTED Introduction
 
   The =serialization.protocol-buffer= system is a pure Common Lisp
-  implementation of a Protocol Buffer compiler. In particular, it does
-  not depend on Google's protocol buffer compiler, =protoc=, or other
-  external tools [fn:graphviz: GraphViz can be used for
-  visualization.].
+  implementation of a Protocol Buffer toolchain without any
+  shortcuts. In particular, it does not depend on Google's protocol
+  buffer compiler, =protoc=, or other external tools [fn:graphviz:
+  GraphViz can be used for visualization.]. It consists of:
+
+  + A parser for the "debug text" format
+  + A parser for the "proto" format
+  + A collection of functions for reading and writing the various
+    "wire types" used in the protocol buffer format
+  + (work in progress) A code generator that emits reasonably
+    efficient (de)serializer functions for protocol buffer messages
 
   #+ATTR_HTML: :alt "build status image" :title Build Status :align right
   [[https://travis-ci.org/scymtym/serialization.protocol-buffer][https://travis-ci.org/scymtym/serialization.protocol-buffer.svg]]
 
 * TODO Tutorial
+
+  This section briefly explains each of the modules mentioned in the
+  [[*Introduction][introduction]].
+
+** TODO Parsing Notes
+
+** TODO Parsing the "Debug Text" Format
+
+** TODO Parsing the "Proto" Format
+
+** TODO Generating Code
 
 * TODO Dictionary
 
