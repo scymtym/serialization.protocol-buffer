@@ -21,7 +21,7 @@
   #x1fffffff)
 
 (deftype field-number ()
-  `(integer 0 ,+most-positive-field-number+))
+  `(integer 1 ,+most-positive-field-number+))
 
 (deftype wire-type/code ()
   '(member 0 1 2 5))
