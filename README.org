@@ -23,12 +23,20 @@
   #+ATTR_HTML: :alt "build status image" :title Build Status :align right
   [[https://travis-ci.org/scymtym/serialization.protocol-buffer][https://travis-ci.org/scymtym/serialization.protocol-buffer.svg]]
 
-* TODO Tutorial
+* STARTED Tutorial
 
   This section briefly explains each of the modules mentioned in the
   [[*Introduction][introduction]].
 
-** TODO Parsing Notes
+** STARTED Parsing Notes
+
+   All parsing functionality provided by this system is based on the
+   [[https://github.com/scymtym/esrap][esrap]] system.
+
+   Parse results are constructed using the
+   [[https://github.com/scymtym/architecture.builder-protocol][architecture.builder-protocol]] system. For simplicity's sake, the
+   examples in this tutorial use the src_lisp[:exports code]{list}
+   builder provided by that system.
 
 ** TODO Parsing the "Debug Text" Format
 
