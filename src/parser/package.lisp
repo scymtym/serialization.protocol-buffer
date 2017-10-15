@@ -1,6 +1,6 @@
 ;;;; package.lisp --- Package definition for shared parser rules.
 ;;;;
-;;;; Copyright (C) 2015, 2016 Jan Moringen
+;;;; Copyright (C) 2015, 2016, 2017 Jan Moringen
 ;;;;
 ;;;; Author: Jan Moringen <jmoringe@techfak.uni-bielefeld.de>
 
@@ -56,6 +56,8 @@
 
    #:keyword-oneof    #:keyword-oneof/s    #:keyword-oneof/?s
 
+   #:keyword-to       #:keyword-to/s       #:keyword-to/?s
+   #:keyword-max      #:keyword-max/s      #:keyword-max/?s
    #:keyword-reserved #:keyword-reserved/s #:keyword-reserved/?s
 
    #:keyword-map      #:keyword-map/s      #:keyword-map/?s)

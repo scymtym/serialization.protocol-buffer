@@ -57,6 +57,8 @@
 
   (define-keyword oneof)
 
+  (define-keyword to)
+  (define-keyword max)
   (define-keyword reserved #+later version-3)
 
   (define-keyword map #+later version-3))
