@@ -91,7 +91,72 @@
 
    That's basically it for the debug text format.
 
-** TODO Parsing the "Proto" Format
+** STARTED Parsing the "Proto" Format
+
+   The "proto" format is used to define Protocol Buffer messages and
+   services. These definitions can be used to generate data structures
+   and corresponding (de)serialization functions for different
+   programming languages. Currently, there are two versions of the
+   "proto" format (and Protocol Buffers as a whole): version 2 and
+   version 3.
+
+   A very simple message definition using version 2 syntax looks like
+   this:
+
+   #+NAME: proto-example
+   #+BEGIN_SRC protobuf
+     syntax = "proto2";
+
+     message Foo {
+         repeated string bar = 1;
+     }
+   #+END_SRC
+
+   The proto format can be parsed using the rules in the
+   src_lisp[:exports code]{:serialization.protocol-buffer.parser.protocol}
+   package. The
+   src_lisp[:exports code]{serialization.protocol-buffer.parser.proto:protocol}
+   rule corresponds to a ".proto" file:
+
+   #+BEGIN_SRC lisp :results value code :exports code # both :var input=proto-example
+     (architecture.builder-protocol:with-builder ('list)
+       (let ((serialization.protocol-buffer.parser::*comment-rule*
+              'serialization.protocol-buffer.parser.proto:comment))
+         (esrap:parse 'serialization.protocol-buffer.parser.proto:proto
+                      input)))
+   #+END_SRC
+
+   #+RESULTS:
+   #+BEGIN_SRC lisp
+     (:FILE
+      (:CHILD
+       (((:SYNTAX NIL :VALUE 2 :BOUNDS (0 . 18)))
+        ((:MESSAGE
+          (:CHILD
+           (((:FIELD
+              ((:TYPE . 1)
+               (((:PRIMITIVE-TYPE NIL :NAME :STRING :BOUNDS (47 . 53)))))
+              :NAME BAR :NUMBER 1 :LABEL :REPEATED :BOUNDS (38 . 62)))))
+          :NAME FOO :BOUNDS (20 . 64)))))
+      :BOUNDS (0 . 65))
+   #+END_SRC
+
+*** STARTED The ~syntax~ Directive
+
+    Since, the src_protobuf[:exports code]{syntax} directive has to
+    appear at the beginning of the file or not at all, the parser
+    takes it into account when parsing the remainder of the file.
+
+    To choose the behavior for files that do not contain a
+    src_protobuf[:exports code]{syntax} directive, the caller can bind
+    the
+    src_lisp[:exports code]{serialization.protocol-buffer.parser.proto:*version*}
+    variable to the desired version:
+
+    #+BEGIN_SRC lisp
+      (let ((serialization.protocol-buffer.parser.proto:*version* 3))
+        …)
+    #+END_SRC
 
 ** TODO Generating Code
 
