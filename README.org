@@ -38,7 +38,58 @@
    examples in this tutorial use the src_lisp[:exports code]{list}
    builder provided by that system.
 
-** TODO Parsing the "Debug Text" Format
+** STARTED Parsing the "Debug Text" Format
+
+   The debug text format is mostly used for printing and reading
+   protocol buffer message literals. There does not seem to be an
+   official grammar or other formal specification but the format seems
+   simple enough.
+
+   Messages are written as sets of key-value pairs (with sometimes
+   optional colons) and lists (for repeated fields) using the
+   widespread square-bracket syntax:
+
+   #+NAME: text-format-example
+   #+BEGIN_EXAMPLE
+     { foo: 1 bar: [ 2,3,4 ] baz: { whoop: "fez" } }
+   #+END_EXAMPLE
+
+   The debug text format can be parsed using the rules in the
+   src_lisp[:exports code]{:serialization.protocol-buffer.parser.text-format}
+   package. The
+   src_lisp[:exports code]{serialization.protocol-buffer.parser.text-format:message}
+   rule corresponds to a message literal:
+
+   #+BEGIN_SRC lisp :results value code :exports code # both :var input=text-format-example
+     (architecture.builder-protocol:with-builder ('list)
+       (esrap:parse 'serialization.protocol-buffer.parser.text-format:message
+                    (string-trim '(#\Newline) input)))
+   #+END_SRC
+
+   #+RESULTS:
+   #+BEGIN_SRC lisp
+     (:MESSAGE
+      (:FIELD
+       (((:FIELD (:VALUE (((:LITERAL NIL :VALUE 1 :BOUNDS (7 . 8))))) :NAME FOO
+                 :BOUNDS (2 . 8)))
+        ((:FIELD
+          (:VALUE
+           (((:LITERAL NIL :VALUE 2 :BOUNDS (16 . 17)))
+            ((:LITERAL NIL :VALUE 3 :BOUNDS (18 . 19)))
+            ((:LITERAL NIL :VALUE 4 :BOUNDS (20 . 21)))))
+          :NAME BAR :BOUNDS (9 . 23)))
+        ((:FIELD
+          (:VALUE
+           (((:MESSAGE
+              (:FIELD
+               (((:FIELD (:VALUE (((:LITERAL NIL :VALUE FEZ :BOUNDS (38 . 43)))))
+                         :NAME WHOOP :BOUNDS (31 . 43)))))
+              :BOUNDS (29 . 45)))))
+          :NAME BAZ :BOUNDS (24 . 45)))))
+      :BOUNDS (0 . 47))
+   #+END_SRC
+
+   That's basically it for the debug text format.
 
 ** TODO Parsing the "Proto" Format
 
