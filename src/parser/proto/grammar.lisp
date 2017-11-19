@@ -12,15 +12,13 @@
 ;;; Utilities
 
 (defun only-in-version-2 (production)
-  (if (= *version* 2)
-      production
-      (values
-       nil
-       (make-condition
-        'simple-error
-        :format-control   "~@<The label \"~(~A~)\" is not supported in ~
-                           protocol buffer syntax version ~A.~@:>"
-        :format-arguments (list production *version*)))))
+  (values
+   nil
+   (make-condition
+    'simple-error
+    :format-control   "~@<The label \"~(~A~)\" is not supported in ~
+                       protocol buffer syntax version ~A.~@:>"
+    :format-arguments (list production *version*))))
 
 (defrule ignored-semicolon
     delimiter-semicolon

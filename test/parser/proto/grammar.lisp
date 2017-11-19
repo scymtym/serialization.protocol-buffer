@@ -184,8 +184,8 @@
             (1+ serialization.protocol-buffer:+most-positive-field-number+)))
    nil)
 
-  ("required string foo = 0;" nil)
-  ("optional string foo = 0;" nil)
+  ("required string foo = 1;" nil)
+  ("optional string foo = 1;" nil)
 
   ("string foo = 1;"
    '(:field
