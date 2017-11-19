@@ -338,6 +338,154 @@
                 :name (("foo")) :bounds (17 . 32)))))
      :name "Foo" :bounds (0 . 38))))
 
+(define-rule-test rpc
+  (""                            nil)
+  ("rpc"                         nil)
+  ("rpc {"                       nil)
+  ("rpc foo"                     nil)
+  ("rpc foo ()"                  nil)
+  ("rpc foo () returns"          nil)
+  ("rpc foo () returns ()"       nil)
+  ("rpc foo (stream) returns ()" nil)
+
+  ("rpc bar (Message) returns (int32) {}"
+   '(:rpc
+     ((:return-type . 1)
+      (((:message-type
+         ((:type . 1)
+          (((:primitive-type () :name :int32 :bounds (27 . 32)))))
+         :stream? nil :bounds (26 . 33))))
+      (:argument-type . 1)
+      (((:message-type
+         ((:type . 1)
+          (((:type-reference
+             ()
+             :name (:relative "Message") :bounds (9 . 16)))))
+         :stream? nil :bounds (8 . 17)))))
+     :name "bar" :bounds (0 . 36)))
+
+  ("rpc bar (stream Message) returns (int32)"
+   '(:rpc
+     ((:return-type . 1)
+      (((:message-type
+         ((:type . 1)
+          (((:primitive-type () :name :int32 :bounds (34 . 39)))))
+         :stream? nil :bounds (33 . 40))))
+      (:argument-type . 1)
+      (((:message-type
+         ((:type . 1)
+          (((:type-reference
+             ()
+             :name (:relative "Message") :bounds (16 . 23)))))
+         :stream? t :bounds (8 . 24)))))
+     :name "bar" :bounds (0 . 40)))
+
+  ("rpc bar (int32) returns (int32) {
+      option foo = 1;
+    }"
+   '(:rpc
+     (:option
+      (((:option
+         ((:value . 1) (((:value () :value 1 :bounds (53 . 54)))))
+         :name (("foo")) :bounds (40 . 55))))
+      (:return-type . 1)
+      (((:message-type
+         ((:type . 1)
+          (((:primitive-type () :name :int32 :bounds (25 . 30)))))
+         :stream? nil :bounds (24 . 31))))
+      (:argument-type . 1)
+      (((:message-type
+         ((:type . 1)
+          (((:primitive-type () :name :int32 :bounds (9 . 14)))))
+         :stream? nil :bounds (8 . 15)))))
+     :name "bar" :bounds (0 . 61))))
+
+(define-rule-test (rpc-stream :version 2)
+  (""                           nil)
+  ("stream"                     nil)
+  ("stream {"                   nil)
+  ("stream foo"                 nil)
+  ("stream foo;"                nil)
+  ("stream foo ();"             nil)
+  ("stream foo (int32);"        nil)
+  ("stream foo (int32,int32) {" nil)
+
+  ("stream bar (int32,int32);"
+   '(:stream
+     ((:type2 . 1)
+      (((:primitive-type () :name :int32 :bounds (18 . 23))))
+      (:type1 . 1)
+      (((:primitive-type () :name :int32 :bounds (12 . 17)))))
+     :name "bar" :bounds (0 . 25)))
+
+  ("stream bar (int32,int32) {}"
+   '(:stream
+     ((:type2 . 1)
+      (((:primitive-type () :name :int32 :bounds (18 . 23))))
+      (:type1 . 1)
+      (((:primitive-type () :name :int32 :bounds (12 . 17)))))
+     :name "bar" :bounds (0 . 27)))
+
+  ("stream bar (int32,int32) { option foo=1; }"
+   '(:stream
+     (:option
+      (((:option
+         ((:value . 1)
+          (((:value () :value 1 :bounds (38 . 39)))))
+         :name (("foo")) :bounds (27 . 40))))
+      (:type2 . 1)
+      (((:primitive-type () :name :int32 :bounds (18 . 23))))
+      (:type1 . 1)
+      (((:primitive-type () :name :int32 :bounds (12 . 17)))))
+     :name "bar" :bounds (0 . 42))))
+
+(define-rule-test (rpc-stream :version 3)
+  ("stream bar (int32,int32);"                  nil)
+  ("stream bar (int32,int32) {}"                nil)
+  ("stream bar (int32,int32) { option foo=1; }" nil))
+
+(define-rule-test service
+  (""                                  nil)
+  ("service"                           nil)
+  ("service {"                         nil)
+  ("service { rpc foo () returns () }" nil)
+
+  ("service foo {}"
+   '(:service () :name "foo" :bounds (0 . 14)))
+
+  ("service/**/foo{/**/}"
+   '(:service
+     (:child (((:comment () :content "" :bounds (15 . 19)))))
+     :name "foo" :bounds (0 . 20)))
+
+  ("service foo {
+      rpc bar (int32) returns (int32);
+    }"
+   '(:service
+     (:child
+      (((:rpc
+         ((:return-type . 1)
+          (((:message-type
+             ((:type . 1)
+              (((:primitive-type () :name :int32 :bounds (45 . 50)))))
+             :stream? nil :bounds (44 . 51))))
+          (:argument-type . 1)
+          (((:message-type
+             ((:type . 1)
+              (((:primitive-type () :name :int32 :bounds (29 . 34)))))
+             :stream? nil :bounds (28 . 35)))))
+         :name "bar" :bounds (20 . 51)))))
+     :name "foo" :bounds (0 . 58)))
+
+  ("service foo {
+      option foo = 1;
+    }"
+   '(:service
+     (:child (((:option
+                ((:value . 1) (((:value () :value 1 :bounds (33 . 34)))))
+                :name (("foo")) :bounds (20 . 35)))))
+     :name "foo" :bounds (0 . 41))))
+
 (define-rule-test statement-package
   (""                  nil)
   ("package"           nil)

@@ -61,6 +61,7 @@
   (define-keyword package)
   (define-keyword message)
   (define-keyword enum)
+  (define-keyword service)
 
   (define-keyword required)
   (define-keyword optional #+later version-2)
@@ -72,7 +73,11 @@
   (define-keyword max)
   (define-keyword reserved #+later version-3)
 
-  (define-keyword map #+later version-3))
+  (define-keyword map)
+
+  (define-keyword rpc)
+  (define-keyword returns)
+  (define-keyword stream))
 
 ;;; Literals
 

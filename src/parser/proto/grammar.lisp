@@ -376,6 +376,65 @@
     (enum keyword-enum/s identifier/?s :enum :child)
   (or enum-value statement-option))
 
+;;; Service
+
+(defrule/s rpc-message-type
+    (and delimiter-\(/?s (? keyword-stream/?s) type-reference/?s delimiter-\))
+  (:destructure (open stream type close &bounds start end)
+    (declare (ignore open close))
+    (bp:node* (:message-type :stream? (when stream t)
+                             :bounds  (cons start end))
+      (1 (:type . 1) type))))
+
+(defrule/s rpc-options
+    (and delimiter-{/?s
+         (* (or statement-option comment whitespace+ ignored-semicolon))
+         delimiter-})
+  (:function second))
+
+(defrule rpc
+    (and keyword-rpc/s identifier/?s
+         rpc-message-type/?s keyword-returns/?s rpc-message-type/?s
+         (? rpc-options/?s))
+  (:destructure (keyword1 name argument-type keyword2 return-type options
+                 &bounds start end)
+    (declare (ignore keyword1 keyword2))
+    (bp:node* (:rpc :name   name
+                    :bounds (cons start end))
+      (1 (:argument-type . 1) argument-type)
+      (1 (:return-type . 1)   return-type)
+      (* :option              options))))
+
+(defrule/s rpc-message-type-pair
+    (and delimiter-\(/?s
+         type-reference/?s delimiter-comma/?s type-reference/?s
+         delimiter-\))
+  (:destructure (open type1 comma type2 close)
+    (declare (ignore open comma close))
+    (cons type1 type2)))
+
+(defrule rpc-stream-element
+    (or statement-option comment whitespace+ ignored-semicolon))
+
+(defrule rpc-stream
+    (and keyword-stream/s identifier/?s
+         rpc-message-type-pair/?s
+         (or (and delimiter-{ (* rpc-stream-element) delimiter-})
+             (and ignored-semicolon)))
+  (:destructure (keyword name (type1 . type2)
+                 (&optional open2 options close2)
+                 &bounds start end)
+    (declare (ignore keyword open2 close2))
+    (bp:node* (:stream :name name :bounds (cons start end))
+      (bp:? (:type1 . 1) type1)
+      (bp:? (:type2 . 1) type2)
+      (*    :option      options)))
+  (:when (= *version* 2)))
+
+(define-named-block-rule
+    (service keyword-service/s identifier/?s :service :child)
+  (or rpc rpc-stream statement-option))
+
 ;;; Package
 
 (defrule statement-package
@@ -393,7 +452,7 @@
          (* (or statement-package
                 statement-import
                 statement-option
-                message enum
+                message enum service
                 toplevel-comment whitespace+ ignored-semicolon)))
   ;; Root production; parses top-level comments, package directives
   ;; and top-level definitions.

@@ -49,6 +49,7 @@
    #:keyword-package  #:keyword-package/s  #:keyword-package/?s
    #:keyword-message  #:keyword-message/s  #:keyword-message/?s
    #:keyword-enum     #:keyword-enum/s     #:keyword-enum/?s
+   #:keyword-service  #:keyword-service/s  #:keyword-service/?s
 
    #:keyword-required #:keyword-required/s #:keyword-required/?s
    #:keyword-optional #:keyword-optional/s #:keyword-optional/?s
@@ -60,7 +61,11 @@
    #:keyword-max      #:keyword-max/s      #:keyword-max/?s
    #:keyword-reserved #:keyword-reserved/s #:keyword-reserved/?s
 
-   #:keyword-map      #:keyword-map/s      #:keyword-map/?s)
+   #:keyword-map      #:keyword-map/s      #:keyword-map/?s
+
+   #:keyword-rpc      #:keyword-rpc/s      #:keyword-rpc/?s
+   #:keyword-returns  #:keyword-returns/s  #:keyword-returns/?s
+   #:keyword-stream   #:keyword-stream/s   #:keyword-stream/?s)
 
   ;; Literals
   (:export

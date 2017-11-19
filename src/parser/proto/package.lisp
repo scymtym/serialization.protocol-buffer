@@ -60,6 +60,10 @@
    #:enum-value
    #:enum
 
+   #:rpc
+   #:rpc-stream
+   #:service
+
    #:statement-package
 
    #:proto)
@@ -72,8 +76,6 @@
     receive parsing results.
 
     The following things are not supported:
-    * service keyword
-    * rpc keyword
     * extend keyword
     * group keyword
 
