@@ -22,9 +22,11 @@ script:
       -s serialization.protocol-buffer/test
       -s serialization.protocol-buffer.parser/test
       -s serialization.protocol-buffer.parser.text-format/test
+      -s serialization.protocol-buffer.parser.proto/test
       '(or (every (function identity)
                   (mapcar (function funcall)
                           (quote (serialization.protocol-buffer.test:run-tests
                                   serialization.protocol-buffer.parser.test:run-tests
-                                  serialization.protocol-buffer.parser.text-format.test:run-tests))))
+                                  serialization.protocol-buffer.parser.text-format.test:run-tests
+                                  serialization.protocol-buffer.parser.proto.test:run-tests))))
            (uiop:quit -1))'
