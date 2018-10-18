@@ -1,6 +1,6 @@
 ;;;; grammar.lisp --- Tests for the grammar rules of the parser module.
 ;;;;
-;;;; Copyright (C) 2012-2017 Jan Moringen
+;;;; Copyright (C) 2012-2018 Jan Moringen
 ;;;;
 ;;;; Author: Jan Moringen <jmoringe@techfak.uni-bielefeld.de>
 
@@ -12,10 +12,10 @@
   ("true"                    t)
   ("false"                   nil nil t)
 
-  (".1"                      .1f0)
-  ("1.0"                     1f0)
-  ("1.0e5"                   1f5)
-  ("1e-10"                   1f-10)
+  (".1"                      .1d0)
+  ("1.0"                     1d0)
+  ("1.0e5"                   1d5)
+  ("1e-10"                   1d-10)
 
   ("-1"                      -1)
   ("0"                       0)

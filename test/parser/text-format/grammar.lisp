@@ -1,6 +1,6 @@
 ;;;; grammar.lisp --- Tests for the text format grammar.
 ;;;;
-;;;; Copyright (C) 2012-2017 Jan Moringen
+;;;; Copyright (C) 2012-2018 Jan Moringen
 ;;;;
 ;;;; Author: Jan Moringen <jmoringe@techfak.uni-bielefeld.de>
 
@@ -130,7 +130,7 @@
   ("1"            '(:literal () :value  1     :bounds (0 . 1)))
   ("-1"           '(:literal () :value  -1    :bounds (0 . 2)))
   ("+1"           '(:literal () :value  1     :bounds (0 . 2)))
-  ("1.0"          '(:literal () :value  1.0f0 :bounds (0 . 3)))
+  ("1.0"          '(:literal () :value  1.0d0 :bounds (0 . 3)))
   ("\"foo\\000\"" `(:literal ()
                              :value  ,(format nil "foo~C" #\Nul)
                              :bounds (0 . 9))))
